@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dbConfig = require("./db/dbConfig");
 const equipmentRoutes = require("./routes/equipmentRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +15,7 @@ app.use(express.json());
 
 // Use equipment routes
 app.use("/api/equipment", equipmentRoutes);
+app.use("/auth", authRoutes);
 
 dbConfig
   .query("SELECT 1")

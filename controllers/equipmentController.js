@@ -1,4 +1,4 @@
-const pool = require("../db/dbConfig");
+const db = require("../db/dbConfig");
 
 exports.addEquipment = async (req, res) => {
   const {
@@ -12,7 +12,6 @@ exports.addEquipment = async (req, res) => {
   } = req.body;
 
   try {
-    // Execute the query using pool.query() inside try block
     const sql =
       "INSERT INTO equipment (manufacturer, product_class, function_, product, store_item, purchase, vendor) VALUES (?, ?, ?, ?, ?, ?, ?)";
     const values = [
@@ -24,10 +23,9 @@ exports.addEquipment = async (req, res) => {
       purchase,
       vendor,
     ];
-    const results = await pool.query(sql, values);
+    const results = await db.query(sql, values);
     res.status(201).json({
-      message: "Equipment created successfully",
-      equipmentId: results.insertId,
+      message: "Equipment added successfully",
     });
   } catch (error) {
     console.error("Error creating equipment:", error);
@@ -37,21 +35,21 @@ exports.addEquipment = async (req, res) => {
 
 exports.getEquipments = async (req, res) => {
   try {
-    const data = await pool.query("SELECT * FROM equipment");
+    const [data] = await db.query("SELECT * FROM equipment");
     if (!data || data.length === 0) {
-      res.status(404).send({
+      return res.status(404).send({
         message: "No data found",
         success: false,
       });
-      return;
     }
     res.status(200).send({
-      message: "Data fetched successfully",
+      message: "Equipment fetched successfully",
       success: true,
       totalEquipment: data.length,
-      data,
+      equipment: data,
     });
   } catch (error) {
+    console.error("Error getting all equipment:", error);
     res.status(500).send({
       message: "Error getting all equipment",
       success: false,
@@ -63,7 +61,7 @@ exports.getEquipments = async (req, res) => {
 exports.getEquipmentByID = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await pool.query("SELECT * FROM equipment WHERE id = ?", [id]);
+    const data = await db.query("SELECT * FROM equipment WHERE id = ?", [id]);
     if (!data || data.length === 0) {
       res.status(404).send({
         message: "No data found",
