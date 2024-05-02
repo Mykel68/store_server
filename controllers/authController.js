@@ -23,13 +23,14 @@ exports.register = async (req, res) => {
 
   try {
     // Check if email already exists
-    const existingUser = await db.query("SELECT * FROM users WHERE email = ?", [
-      email,
-    ]);
-    // if (existingUser.length > 0) {
-    //   console.log("Email already exists:", email);
-    //   return res.status(400).json({ message: "Email already exists" });
-    // }
+    const [existingUser] = await db.query(
+      "SELECT * FROM users WHERE email = ?",
+      [email]
+    );
+    console.log(existingUser);
+    if (existingUser.length > 0) {
+      return res.status(400).json({ message: "Email already registered" });
+    }
 
     // Validate password length
     if (password.length < 6) {
@@ -42,59 +43,51 @@ exports.register = async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Perform the database insertion with hashed password
+    // Insert the new user
     const values = [name, email, hashedPassword];
-    db.query(sql, values, (err, result) => {
-      if (err) {
-        console.error("Error creating user:", err);
-        res.status(500).json({ message: "Internal Server Error" });
-      } else {
-        console.log("User created successfully");
-        res.status(201).json({ message: "User created successfully" });
-      }
-    });
+    await db.query(sql, values);
+
+    res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    console.error("Error checking existing user:", error);
+    console.error("Error checking existing user or creating user:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  const sql = "SELECT * FROM users WHERE email = ?";
-  const values = [email];
 
   // Check if email and password are provided
   if (!email || !password) {
     return res.status(400).json({ message: "All Credentials are required" });
   }
 
-  // Retrieve user from the database
-  db.query(sql, values, async (err, results) => {
-    if (err) {
-      console.error("Error retrieving user:", err);
-      return res.status(500).json({ message: "Internal Server Error" });
-    }
+  try {
+    // Retrieve user from the database
+    const [user] = await db.query("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
 
     // Check if user exists
-    if (results.length === 0) {
-      return res.status(401).json({ message: "Invalid email or password" });
+    if (user.length === 0) {
+      return res.status(401).json({ message: "Unauthorized user" });
     }
 
-    const user = results[0];
-
     // Compare password hash
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(password, user[0].password);
     if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid password" });
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user[0].id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 
     // Send token to the client
     res.status(200).json({ token });
-  });
+  } catch (error) {
+    console.error("Error retrieving user or comparing password:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
