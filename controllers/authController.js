@@ -1,4 +1,4 @@
-const db = require("../db/dbConfig");
+const db = require("../config/dbConfig");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -59,7 +59,9 @@ exports.login = async (req, res) => {
 
   // Check if email and password are provided
   if (!email || !password) {
-    return res.status(400).json({ message: "All Credentials are required" });
+    return res
+      .status(400)
+      .json({ message: "All are Credentials are required" });
   }
 
   try {
@@ -76,7 +78,7 @@ exports.login = async (req, res) => {
     // Compare password hash
     const passwordMatch = await bcrypt.compare(password, user[0].password);
     if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res.status(401).json({ message: "Not valid password" });
     }
 
     // Generate JWT token
