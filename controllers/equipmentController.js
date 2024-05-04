@@ -1,8 +1,8 @@
 const db = require("../models");
 
 exports.registerEquipment = async (req, res) => {
-  console.log("db.registeredEquipments:", db.registeredEquipments);
-  console.log("db.equipments:", db.equipments);
+  // console.log("db.registeredEquipments:", db.registeredEquipments);
+  // console.log("db.equipments:", db.equipments);
   try {
     const {
       model_name,

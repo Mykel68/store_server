@@ -34,6 +34,8 @@ db.registeredEquipments = require("./registeredEquipmentModel")(
   DataTypes
 );
 
+db.User = require("./userModel")(sequelize, DataTypes);
+
 // Define the association
 db.registeredEquipments.hasMany(db.equipments, {
   foreignKey: "registered_equipment_id",
