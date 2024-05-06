@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
 
   RegisteredEquipment.associate = (models) => {
     RegisteredEquipment.hasMany(models.Equipment, {
-      foreignKey: "registered_equipment_id",
+      foreignKey: "model_name",
       as: "equipment",
     });
   };

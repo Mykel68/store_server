@@ -9,20 +9,31 @@ module.exports = (sequelize, DataTypes) => {
       },
       serial_number: {
         type: DataTypes.STRING(45),
-
         unique: true,
       },
-      registered_equipment_id: {
-        type: DataTypes.INTEGER,
+      model_name: {
+        type: DataTypes.STRING(45),
         allowNull: false,
       },
       manufacturer: {
         type: DataTypes.STRING(45),
         allowNull: false,
       },
+      department: {
+        type: DataTypes.STRING(45),
+        // allowNull: false,
+      },
       product_class: {
         type: DataTypes.STRING(45),
         allowNull: false,
+      },
+      sub_class: {
+        type: DataTypes.STRING(45),
+        allowNull: true,
+      },
+      abbreviation: {
+        type: DataTypes.STRING(45),
+        allowNull: true,
       },
       function_: {
         type: DataTypes.TEXT,
@@ -44,6 +55,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(45),
         allowNull: true,
       },
+      store_code: {
+        type: DataTypes.STRING(45),
+        allowNull: false,
+      },
     },
     {
       tableName: "equipment",
@@ -53,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Equipment.associate = (models) => {
     Equipment.belongsTo(models.RegisteredEquipment, {
-      foreignKey: "registered_equipment_id",
+      foreignKey: "model_name",
       as: "registeredEquipment",
     });
   };

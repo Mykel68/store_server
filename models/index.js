@@ -46,7 +46,7 @@ db.equipments.belongsTo(db.registeredEquipments, {
   as: "registeredEquipment",
 });
 
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ alter: true }).then(() => {
   console.log("Drop and re-sync db.");
 });
 

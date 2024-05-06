@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const equipmentController = require("../controllers/equipmentController");
 
+// Search equipment
+router.get("/search", equipmentController.searchEquipment);
+
 // Register equipment
 router.post("/register-equipment", equipmentController.registerEquipment);
 
