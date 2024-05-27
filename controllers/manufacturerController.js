@@ -3,18 +3,10 @@ const { Op } = require("sequelize");
 
 exports.registerManufacturer = async (req, res) => {
   try {
-    const { name, email, product_class, phone_number, address, country } =
-      req.body;
+    const { name, email, phone_number, address, country } = req.body;
 
     // Check if all required fields are provided
-    const requiredFields = [
-      name,
-      email,
-      product_class,
-      phone_number,
-      address,
-      country,
-    ];
+    const requiredFields = [name, email, phone_number, address, country];
     if (requiredFields.some((field) => !field)) {
       return res
         .status(400)
@@ -49,7 +41,6 @@ exports.registerManufacturer = async (req, res) => {
     const newManufacturer = await db.Manufacturer.create({
       name,
       email,
-      product_class,
       phone_number,
       address,
       country,
@@ -59,5 +50,15 @@ exports.registerManufacturer = async (req, res) => {
   } catch (error) {
     console.error("Error registering manufacturer:", error);
     res.status(500).json({ error: "Error registering manufacturer" });
+  }
+};
+
+exports.getManufacturers = async (req, res) => {
+  try {
+    const manufacturers = await db.Manufacturer.findAll();
+    res.status(200).json(manufacturers);
+  } catch (error) {
+    console.error("Error getting manufacturers:", error);
+    res.status(500).json({ error: "Error getting manufacturers" });
   }
 };
