@@ -35,6 +35,7 @@ db.registeredEquipments = require("./registeredEquipmentModel")(
 );
 
 db.User = require("./userModel")(sequelize, DataTypes);
+db.Manufacturer = require("./manufacturerModel")(sequelize, DataTypes);
 
 // Define the association
 db.registeredEquipments.hasMany(db.equipments, {
