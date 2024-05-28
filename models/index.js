@@ -37,15 +37,17 @@ db.registeredEquipments = require("./registeredEquipmentModel")(
 db.User = require("./userModel")(sequelize, DataTypes);
 db.Manufacturer = require("./manufacturerModel")(sequelize, DataTypes);
 
+db.Product = require("./productModel")(sequelize, DataTypes);
+
 // Define the association
-db.registeredEquipments.hasMany(db.equipments, {
-  foreignKey: "registered_equipment_id",
-  as: "equipment",
-});
-db.equipments.belongsTo(db.registeredEquipments, {
-  foreignKey: "registered_equipment_id",
-  as: "registeredEquipment",
-});
+// db.registeredEquipments.hasMany(db.equipments, {
+//   foreignKey: "registered_equipment_id",
+//   as: "equipment",
+// });
+// db.equipments.belongsTo(db.registeredEquipments, {
+//   foreignKey: "registered_equipment_id",
+//   as: "registeredEquipment",
+// });
 
 db.sequelize.sync({ alter: true }).then(() => {
   console.log("Drop and re-sync db.");

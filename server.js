@@ -30,6 +30,7 @@ const cors = require("cors");
 const equipmentRoutes = require("./routes/equipmentRoutes");
 const authRoutes = require("./routes/authRoutes");
 const manufacturerRoutes = require("./routes/manufacturerRoutes");
+const productRoutes = require("./routes/productRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -44,6 +45,7 @@ app.use(express.json());
 app.use("/api/equipment", equipmentRoutes);
 app.use("/auth", authRoutes);
 app.use("/api/manufacturer", manufacturerRoutes);
+app.use("/api/product", productRoutes);
 
 sequelize
   .authenticate()

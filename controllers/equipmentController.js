@@ -68,24 +68,20 @@ exports.addEquipment = async (req, res) => {
     const {
       department,
       product_class,
-      sub_class,
+
       manufacturer,
-      function_,
-      product,
-      store_item,
-      purchase,
-      vendor,
+
       model_name,
       serial_number,
     } = req.body;
 
     // Check if the registered equipment exists
-    const registeredEquipment = await db.registeredEquipments.findOne({
-      where: { model_name },
-    });
-    if (!registeredEquipment) {
-      return res.status(404).json({ error: "Registered equipment not found" });
-    }
+    // const registeredEquipment = await db.registeredEquipments.findOne({
+    //   where: { model_name },
+    // });
+    // if (!registeredEquipment) {
+    //   return res.status(404).json({ error: "Registered equipment not found" });
+    // }
 
     // Generate the store code
     const storeCode = await generateStoreCode(
