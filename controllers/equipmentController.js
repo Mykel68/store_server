@@ -10,11 +10,11 @@ exports.registerEquipment = async (req, res) => {
       model_name,
       model_number,
       product_class,
-      manufacturer_id,
+      manufacturer,
       power_rating,
       weight,
-      dimensions,
-      quantity,
+      dimension,
+      
     } = req.body;
 
     // Check if all required fields are provided
@@ -22,11 +22,11 @@ exports.registerEquipment = async (req, res) => {
       !model_name ||
       !model_number ||
       !product_class ||
-      !manufacturer_id ||
+      !manufacturer ||
       !power_rating ||
       !weight ||
-      !dimensions ||
-      !quantity
+      !dimension
+      
     ) {
       return res
         .status(400)
@@ -34,25 +34,25 @@ exports.registerEquipment = async (req, res) => {
     }
 
     // Check if the equipment model is already registered
-    const registeredEquipment = await db.registeredEquipments.findOne({
-      where: { model_number },
-    });
-    if (registeredEquipment) {
-      return res
-        .status(409)
-        .json({ error: "Equipment model already registered" });
-    }
+    // const registeredEquipment = await db.registeredEquipments.findOne({
+    //   where: { model_number },
+    // });
+    // if (registeredEquipment) {
+    //   return res
+    //     .status(409)
+    //     .json({ error: "Equipment model already registered" });
+    // }
 
     // Create the new registered equipment
     const newRegisteredEquipment = await db.registeredEquipments.create({
       model_name,
       model_number,
       product_class,
-      manufacturer_id,
+      manufacturer,
       power_rating,
       weight,
-      dimensions,
-      quantity,
+      dimension,
+     
     });
 
     res.status(200).json(newRegisteredEquipment);

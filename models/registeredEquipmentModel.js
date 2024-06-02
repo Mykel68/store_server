@@ -20,16 +20,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(45),
         allowNull: false,
       },
-      manufacturer_id: {
-        type: DataTypes.INTEGER,
+      manufacturer: {
+      type: DataTypes.STRING(45),
       },
       power_rating: {
         type: DataTypes.STRING(45),
       },
       weight: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.STRING(45),
       },
-      dimensions: {
+      dimension: {
         type: DataTypes.STRING(100),
       },
       quantity: {

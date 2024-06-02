@@ -6,7 +6,7 @@ const equipmentController = require("../controllers/equipmentController");
 router.get("/search", equipmentController.searchEquipment);
 
 // Register equipment
-router.post("/register-equipment", equipmentController.registerEquipment);
+router.post("/register", equipmentController.registerEquipment);
 
 // Add equipment
 router.post("/", equipmentController.addEquipment);

@@ -15,9 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
     },
-        country_code: {
+    country_code: {
       type: DataTypes.STRING(4),
       allowNull: false,
+        defaultValue: +234,
     },
     phone_number: {
       type: DataTypes.STRING(100),
