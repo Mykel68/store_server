@@ -3,10 +3,10 @@ const { Op } = require("sequelize");
 
 exports.registerManufacturer = async (req, res) => {
   try {
-    const { name, email, phone_number, address, country } = req.body;
+    const { name, email, phone_number, address, country , country_code} = req.body;
 
     // Check if all required fields are provided
-    const requiredFields = [name, email, phone_number, address, country];
+    const requiredFields = [name, email, phone_number, address, country , country_code];
     if (requiredFields.some((field) => !field)) {
       return res
         .status(400)
@@ -24,7 +24,7 @@ exports.registerManufacturer = async (req, res) => {
     if (!phoneRegex.test(phone_number)) {
       return res
         .status(400)
-        .json({ error: "Invalid phone number format. It should be 10 digits" });
+        .json("Invalid phone number format. It should be 10 digits");
     }
 
     // Check if the manufacturer with the same email already exists
@@ -44,6 +44,7 @@ exports.registerManufacturer = async (req, res) => {
       phone_number,
       address,
       country,
+      country_code
     });
 
     res.status(201).json(newManufacturer);

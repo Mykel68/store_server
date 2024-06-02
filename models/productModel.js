@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
     },
-    departmart: {
+    department: {
       type: DataTypes.ENUM(
         "video",
         "audio",

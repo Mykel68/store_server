@@ -33,7 +33,7 @@ const manufacturerRoutes = require("./routes/manufacturerRoutes");
 const productRoutes = require("./routes/productRoutes");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 require("dotenv").config();
 
